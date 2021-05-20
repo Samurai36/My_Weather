@@ -6,21 +6,29 @@ import viktor.khlebnikov.geekgrains.android1.myweather.model.Repository
 import viktor.khlebnikov.geekgrains.android1.myweather.model.RepositoryImpl
 import java.lang.Thread.sleep
 
-class MainViewModel(private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-                    private val repositoryImpl: Repository = RepositoryImpl()) :
+class MainViewModel(
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
+    private val repositoryImpl: Repository = RepositoryImpl()
+) :
     ViewModel() {
 
     fun getLiveData() = liveDataToObserve
 
-    fun getWeatherFromLocalSource() = getDataFromLocalSourse()
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSourse(isRussian = true)
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSourse(isRussian = false)
+    fun getWeatherFromRemoteSource() = getDataFromLocalSourse(isRussian = true)
 
-    fun getWeatherFromRemoteSource() = getDataFromLocalSourse()
-
-    private fun getDataFromLocalSourse() {
+    private fun getDataFromLocalSourse(isRussian: Boolean) {
         liveDataToObserve.value = AppState.Loading
         Thread {
             sleep(1000)
-            liveDataToObserve.postValue(AppState.Succes(repositoryImpl.getWeatherFromLocalStorage()))
+            liveDataToObserve.postValue(
+                AppState.Succes(
+                    if (isRussian)
+                        repositoryImpl.getWeatherFromLocalStorageRus()
+                    else repositoryImpl.getWeatherFromLocalStorageWorld()
+                )
+            )
         }.start()
     }
 }

@@ -1,9 +1,8 @@
-package viktor.khlebnikov.geekgrains.android1.myweather.ui.view
+package viktor.khlebnikov.geekgrains.android1.myweather.ui.view.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import viktor.khlebnikov.geekgrains.android1.myweather.R
-import viktor.khlebnikov.geekgrains.android1.myweather.ui.view.MainFragment
 
 class MainActivity : AppCompatActivity() {
 
