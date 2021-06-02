@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWeather">
+        <service android:name=".ui.view.details.DetailsService" />
+        <receiver android:name=".ui.view.main.MainBroadcastReceiver"><intent-filter>
+            <action android:name="android.intent.action.LOCALE_CHANGED" />
+        </intent-filter>
+        </receiver>
         <activity android:name=".ui.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
