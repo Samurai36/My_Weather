@@ -1,4 +1,7 @@
-package viktor.khlebnikov.geekgrains.android1.myweather.model
+package viktor.khlebnikov.geekgrains.android1.myweather.repository
+
+import viktor.khlebnikov.geekgrains.android1.myweather.model.City
+import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 
 class RepositoryImpl : Repository {
 
@@ -23,6 +26,7 @@ class RepositoryImpl : Repository {
     override fun getWeatherFromLocalStorageWorld(): List<Weather> {
         return listOf(
             Weather(City("Москва", 55.755826, 37.617299900000035), 1, 2),
+            Weather(City("Рязань", 56.7565826, 57.6170000035), 2, 3),
             Weather(City("Санкт-Петербург", 59.9342802, 30.335098600000038), 3, 3),
             Weather(City("Новосибирск", 55.00835259999999, 82.93573270000002), 5, 6),
             Weather(City("Екатеринбург", 56.83892609999999, 60.60570250000001), 7, 8),

@@ -2,8 +2,8 @@ package viktor.khlebnikov.geekgrains.android1.myweather.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import viktor.khlebnikov.geekgrains.android1.myweather.model.Repository
-import viktor.khlebnikov.geekgrains.android1.myweather.model.RepositoryImpl
+import viktor.khlebnikov.geekgrains.android1.myweather.repository.Repository
+import viktor.khlebnikov.geekgrains.android1.myweather.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(

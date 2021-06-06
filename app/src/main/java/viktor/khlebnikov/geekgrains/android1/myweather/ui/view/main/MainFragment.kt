@@ -13,6 +13,7 @@ import viktor.khlebnikov.geekgrains.android1.myweather.R
 import viktor.khlebnikov.geekgrains.android1.myweather.databinding.FragmentMainBinding
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 import viktor.khlebnikov.geekgrains.android1.myweather.ui.view.details.DetailsFragment
+import viktor.khlebnikov.geekgrains.android1.myweather.utils.showSnackBar
 import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.AppState
 import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.MainViewModel
 
@@ -53,8 +54,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.mainFragmentRecyclerView.adapter = adapter
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
     }
 
@@ -79,12 +79,22 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 mainFragmentLoadingLayout.visibility = View.GONE
-                mainFragmentRootView.createAndShow(
+                mainFragmentRootView.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reload),
                     { viewModel.getWeatherFromLocalSourceRus() })
             }
         }
+    }
+
+    override fun onDestroy() {
+        adapter.removeListener()
+        super.onDestroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
@@ -94,11 +104,4 @@ class MainFragment : Fragment() {
 
 }
 
-fun View.createAndShow(
-    text: String,
-    actionText: String,
-    action: (View) -> Unit,
-    length: Int = Snackbar.LENGTH_INDEFINITE
-) {
-    Snackbar.make(this, text, length).setAction(actionText, action).show()
-}
+

@@ -1,4 +1,6 @@
-package viktor.khlebnikov.geekgrains.android1.myweather.model
+package viktor.khlebnikov.geekgrains.android1.myweather.repository
+
+import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 
 interface Repository {
     fun getWeatherFromServer(): Weather

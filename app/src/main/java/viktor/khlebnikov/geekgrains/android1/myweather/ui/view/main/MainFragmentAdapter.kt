@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_main_recycler_item.view.*
 import viktor.khlebnikov.geekgrains.android1.myweather.R
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 
@@ -19,6 +20,10 @@ class MainFragmentAdapter(
     fun setWeather(data: List<Weather>) {
         weatherData = data
         notifyDataSetChanged()
+    }
+
+    fun removeListener() {
+        onItemViewClickListener = null
     }
 
     override fun onCreateViewHolder(
@@ -43,8 +48,7 @@ class MainFragmentAdapter(
 
         fun bind(weather: Weather) {
             itemView.apply {
-                findViewById<TextView>(R.id.mainFragmentRecyclerItemTextView).text =
-                    weather.city.city
+                mainFragmentRecyclerItemTextView.text = weather.city.city
                 setOnClickListener { onItemViewClickListener?.onItemViewClick(weather) }
             }
         }
