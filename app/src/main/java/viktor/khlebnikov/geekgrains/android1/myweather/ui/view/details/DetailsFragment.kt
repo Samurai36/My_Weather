@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import coil.Coil
 import coil.api.load
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import kotlinx.android.synthetic.main.fragment_details.*
 import viktor.khlebnikov.geekgrains.android1.myweather.R
 import viktor.khlebnikov.geekgrains.android1.myweather.databinding.FragmentDetailsBinding
+import viktor.khlebnikov.geekgrains.android1.myweather.model.City
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 import viktor.khlebnikov.geekgrains.android1.myweather.utils.showSnackBar
-import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.AppState
+import viktor.khlebnikov.geekgrains.android1.myweather.app.AppState
 import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.DetailsViewModel
 
 class DetailsFragment : Fragment() {
@@ -100,6 +99,19 @@ class DetailsFragment : Fragment() {
         _binding = null
     }
 
+    private fun saveCity(
+        city: City,
+        weather: Weather
+    ) {
+        viewModel.saveCityToDB(
+            Weather(
+                city,
+                weather.temperature,
+                weather.feelsLike,
+                weather.condition
+            )
+        )
+    }
 
     companion object {
 

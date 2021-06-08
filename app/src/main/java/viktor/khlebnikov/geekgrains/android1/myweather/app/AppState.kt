@@ -1,4 +1,4 @@
-package viktor.khlebnikov.geekgrains.android1.myweather.viewmodel
+package viktor.khlebnikov.geekgrains.android1.myweather.app
 
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 

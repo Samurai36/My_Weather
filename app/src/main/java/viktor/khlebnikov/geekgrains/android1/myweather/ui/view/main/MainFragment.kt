@@ -1,26 +1,28 @@
 package viktor.khlebnikov.geekgrains.android1.myweather.ui.view.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import viktor.khlebnikov.geekgrains.android1.myweather.R
 import viktor.khlebnikov.geekgrains.android1.myweather.databinding.FragmentMainBinding
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 import viktor.khlebnikov.geekgrains.android1.myweather.ui.view.details.DetailsFragment
 import viktor.khlebnikov.geekgrains.android1.myweather.utils.showSnackBar
-import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.AppState
+import viktor.khlebnikov.geekgrains.android1.myweather.app.AppState
 import viktor.khlebnikov.geekgrains.android1.myweather.viewmodel.MainViewModel
+
+private const val IS_WORLD_KEY = "LIST_OF_TOWNS_KEY"
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private var isDataSetWorld: Boolean = false
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
@@ -56,17 +58,38 @@ class MainFragment : Fragment() {
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
+        showListOfTowns()
     }
 
-    private fun changeWeatherDataSet() =
+    private fun showListOfTowns() {
+        activity?.let {
+            if (it.getPreferences(Context.MODE_PRIVATE).getBoolean(IS_WORLD_KEY, false)) {
+                changeWeatherDataSet()
+            } else {
+                viewModel.getWeatherFromLocalSourceRus()
+            }
+        }
+    }
+
+    private fun changeWeatherDataSet() {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
-            mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
         } else {
             viewModel.getWeatherFromLocalSourceRus()
-            mainFragmentFAB.setImageResource(R.drawable.ic_russia)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }.also { isDataSetRus = !isDataSetRus }
+        saveListOfTowns(isDataSetWorld)
+    }
 
+    private fun saveListOfTowns(isDataSetWorld: Boolean) {
+        activity?.let {
+            with(it.getPreferences(Context.MODE_PRIVATE).edit()) {
+                putBoolean(IS_WORLD_KEY, isDataSetWorld)
+                apply()
+            }
+        }
+    }
 
     private fun renderData(appState: AppState) {
         when (appState) {
