@@ -7,7 +7,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Header
 import viktor.khlebnikov.geekgrains.android1.myweather.BuildConfig
 import viktor.khlebnikov.geekgrains.android1.myweather.model.WeatherDTO
 import java.io.IOException

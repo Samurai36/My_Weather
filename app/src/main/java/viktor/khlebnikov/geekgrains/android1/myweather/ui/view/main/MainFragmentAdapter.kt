@@ -3,7 +3,6 @@ package viktor.khlebnikov.geekgrains.android1.myweather.ui.view.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_main_recycler_item.view.*
 import viktor.khlebnikov.geekgrains.android1.myweather.R
