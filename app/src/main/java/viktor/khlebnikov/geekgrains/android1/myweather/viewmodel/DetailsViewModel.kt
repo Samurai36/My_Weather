@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import viktor.khlebnikov.geekgrains.android1.myweather.app.App.Companion.getHistoryDao
+import viktor.khlebnikov.geekgrains.android1.myweather.app.App.Companion.appHistoryDao
 import viktor.khlebnikov.geekgrains.android1.myweather.app.AppState
 import viktor.khlebnikov.geekgrains.android1.myweather.model.Weather
 import viktor.khlebnikov.geekgrains.android1.myweather.model.WeatherDTO
@@ -18,7 +18,7 @@ private const val CORRUPTED_DATA = "Неполные данные"
 
 class DetailsViewModel(
     val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao()),
+    private val historyRepository: LocalRepository = LocalRepositoryImpl(appHistoryDao),
     private val detailsRepositoryImpl: DetailsRepository =
         DetailsRepositoryImpl(RemoteDataSource())
 ) : ViewModel() {

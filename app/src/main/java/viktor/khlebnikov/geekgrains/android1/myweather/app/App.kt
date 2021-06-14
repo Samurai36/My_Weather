@@ -17,7 +17,7 @@ class App : Application() {
         private var appInstance: App? = null
         private const val DB_NAME = "History.db"
 
-        private val appHistoryDao by lazy {
+        val appHistoryDao by lazy {
             Room
                 .databaseBuilder(
                     appInstance!!.applicationContext,
@@ -29,7 +29,6 @@ class App : Application() {
                 .historyDao()
         }
 
-        fun getHistoryDao(): HistoryDao = appHistoryDao
     }
 }
 

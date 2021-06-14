@@ -7,7 +7,7 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 import viktor.khlebnikov.geekgrains.android1.myweather.R
-import viktor.khlebnikov.geekgrains.android1.myweather.app.App.Companion.getHistoryDao
+import viktor.khlebnikov.geekgrains.android1.myweather.app.App.Companion.appHistoryDao
 import viktor.khlebnikov.geekgrains.android1.myweather.room.*
 
 private const val URI_ALL = 1
@@ -40,7 +40,7 @@ class MyContentProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor {
-        val historyDao: HistoryDao = getHistoryDao()
+        val historyDao: HistoryDao = appHistoryDao
         val cursor = when (uriMatcher.match(uri)) {
             URI_ALL -> historyDao.getHistoryCursor()
             URI_ID -> {
@@ -63,7 +63,7 @@ class MyContentProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         require(uriMatcher.match(uri) == URI_ID) { "Wrong URI: $uri" }
-        val historyDao = getHistoryDao()
+        val historyDao = appHistoryDao
         val id = ContentUris.parseId(uri)
         historyDao.deleteById(id)
         context?.contentResolver?.notifyChange(uri, null)
@@ -72,7 +72,7 @@ class MyContentProvider : ContentProvider() {
 
     override fun insert(uri: Uri, values: ContentValues?): Uri {
         require(uriMatcher.match(uri) == URI_ALL) { "Wrong URI: $uri" }
-        val historyDao = getHistoryDao()
+        val historyDao = appHistoryDao
         val entity = map(values)
         val id: Long = entity.id
         historyDao.insert(entity)
@@ -86,7 +86,7 @@ class MyContentProvider : ContentProvider() {
         selectionArgs: Array<String>?
     ): Int {
         require(uriMatcher.match(uri) == URI_ID) { "Wrong URI: $uri" }
-        val historyDao = getHistoryDao()
+        val historyDao = appHistoryDao
         historyDao.update(map(values))
         context!!.contentResolver.notifyChange(uri, null)
         return 1
