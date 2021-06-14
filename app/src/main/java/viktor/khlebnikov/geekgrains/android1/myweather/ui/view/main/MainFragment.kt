@@ -35,19 +35,16 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-    private var isDataSetWorld: Boolean = false
-
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    private var isDataSetRus: Boolean = true
+    private var isDataSetWorld: Boolean = false
     private val adapter = MainFragmentAdapter(object : MainFragmentAdapter.OnItemViewClickListener {
         override fun onItemViewClick(weather: Weather) {
             openDetailsFragment(weather)
         }
     })
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +60,7 @@ class MainFragment : Fragment() {
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         binding.mainFragmentFABLocation.setOnClickListener { checkPermission() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getWeatherFromLocalSourceRus()
+
         showListOfTowns()
     }
 
@@ -106,7 +103,7 @@ class MainFragment : Fragment() {
 
     private fun requestPermission() {
         requestPermissions(
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             REQUEST_CODE
         )
     }
@@ -216,7 +213,7 @@ class MainFragment : Fragment() {
                     })
                 )
                 .addToBackStack("")
-                .commitAllowingStateLoss()
+                .commit()
         }
     }
 
@@ -278,13 +275,13 @@ class MainFragment : Fragment() {
     }
 
     private fun changeWeatherDataSet() {
-        if (isDataSetRus) {
-            viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
-        } else {
+        if (isDataSetWorld) {
             viewModel.getWeatherFromLocalSourceRus()
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
-        }.also { isDataSetRus = !isDataSetRus }
+        } else {
+            viewModel.getWeatherFromLocalSourceWorld()
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
+        }.also { isDataSetWorld = !isDataSetWorld }
         saveListOfTowns(isDataSetWorld)
     }
 
