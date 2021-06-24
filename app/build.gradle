@@ -29,7 +29,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            versionNameSuffix ".debug"
+        }
+
     }
+
+    flavorDimensions 'version'
+
+    productFlavors {
+        yandexAPI {
+            dimension 'version'
+            versionNameSuffix '.yandexAPI'
+        }
+        openweathermapAPI {
+            dimension 'version'
+            versionNameSuffix '.openweathermapAPI'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -43,6 +61,8 @@ android {
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
         def apiKey  = properties.getProperty("MY_API_KEY_YANDEX_WEATHER", "")
         it.buildConfigField "String", "WEATHER_API_KEY", apiKey
+        def apiKey2  = properties.getProperty("MY_API_KEY_OPENWEATHERMAP_WEATHER", "")
+        it.buildConfigField "String", "WEATHER_API_KEY2", apiKey2
     }
 
 }

@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
         binding.mainFragmentFABLocation.setOnClickListener { checkPermission() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
 
+        binding.textVersion.text = getString(R.string.version)
         showListOfTowns()
     }
 
